@@ -1,0 +1,34 @@
+<section class="card">
+  <header class="card-header">
+    <span class="bola" aria-hidden="true">⚽</span>
+    <h2>Cadastrar torcedor</h2>
+    <p class="subtitulo">Preencha os dados e escolha o seu time</p>
+  </header>
+
+  <form (ngSubmit)="cadastrar()" #formulario="ngForm">
+    <label>
+      <span>Nome do torcedor</span>
+      <input name="nome" [(ngModel)]="nome" placeholder="Ex.: Carlos Lima" required />
+    </label>
+
+    <label>
+      <span>E-mail</span>
+      <input name="email" type="email" [(ngModel)]="email"
+             placeholder="torcedor@email.com" required email />
+    </label>
+
+    <label>
+      <span>Time</span>
+      <select name="time" [(ngModel)]="time" required>
+        <option value="" disabled>Selecione...</option>
+        @for (opcao of times; track opcao) {
+          <option [value]="opcao">{{ opcao }}</option>
+        }
+      </select>
+    </label>
+
+    <button type="submit" [disabled]="formulario.invalid">Cadastrar</button>
+  </form>
+
+  <a class="link" routerLink="/lista">Ir para a lista de inscrições →</a>
+</section>

@@ -1,0 +1,56 @@
+<section class="card">
+  <header class="card-header">
+    <h2>Lista de inscrições</h2>
+  </header>
+
+  <div class="contadores">
+    <div class="contador">
+      <strong>{{ inscricaoService.total }}</strong>
+      <span>Total</span>
+    </div>
+    <div class="contador confirmadas">
+      <strong>{{ inscricaoService.confirmadas }}</strong>
+      <span>Confirmadas</span>
+    </div>
+    <div class="contador pendentes">
+      <strong>{{ inscricaoService.pendentes }}</strong>
+      <span>Pendentes</span>
+    </div>
+  </div>
+
+  @if (inscricaoService.listar().length === 0) {
+    <p class="vazio">Nenhuma inscrição cadastrada</p>
+  } @else {
+    <ul>
+      @for (inscricao of inscricaoService.listar(); track inscricao.id) {
+        <li>
+          <div class="info">
+            <div class="linha-nome">
+              <strong>{{ inscricao.nome }}</strong>
+              <span class="time" [attr.data-time]="inscricao.time">{{ inscricao.time }}</span>
+              <span class="status"
+                    [class.pendente]="inscricao.status === 'Pendente'"
+                    [class.confirmada]="inscricao.status === 'Confirmada'">
+                {{ inscricao.status }}
+              </span>
+            </div>
+            <small>{{ inscricao.email }}</small>
+          </div>
+
+          <div class="acoes">
+            <button class="confirmar"
+                    [class.sublinhado]="inscricao.status === 'Confirmada'"
+                    (click)="inscricaoService.confirmarInscricao(inscricao.id)">
+              Confirmar inscrição
+            </button>
+            <button class="remover" (click)="inscricaoService.remover(inscricao.id)">
+              Remover
+            </button>
+          </div>
+        </li>
+      }
+    </ul>
+  }
+
+  <a class="link" routerLink="/cadastro">← Voltar ao cadastro</a>
+</section>
